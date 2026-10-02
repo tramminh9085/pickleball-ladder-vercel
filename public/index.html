@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickleball Ladder League</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar-nav w-100 px-3">
+            <div class="navbar-brand">
+                <i class="fas fa-circle"></i>Pickleball League
+            </div>
+            <div class="ms-auto">
+                <a class="btn btn-sm btn-outline-secondary admin-only d-none me-2" href="/config.html">
+                    <i class="fas fa-cog"></i> Cấu hình
+                </a>
+                <a class="btn btn-sm btn-outline-primary admin-only d-none me-2" href="/players.html">
+                    <i class="fas fa-users"></i> Quản lý người chơi
+                </a>
+                <button type="button" class="btn btn-sm btn-primary" id="authButton">
+                    <i class="fas fa-right-to-bracket"></i> Đăng nhập Admin
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3">
+                    <div class="sidebar">
+                        <div class="sidebar-title">
+                            <i class="fas fa-calendar-days"></i> Ngày chơi
+                        </div>
+                        <div id="playDaysList"></div>
+                        <button type="button" class="btn btn-sm btn-primary w-100 mt-2 admin-only d-none" id="newPlayDayButton">
+                            <i class="fas fa-plus"></i> Tạo ngày chơi
+                        </button>
+                        <a href="/stats.html" class="btn btn-sm btn-outline-success w-100 mt-2">
+                            <i class="fas fa-chart-bar"></i> Thống kê MAX
+                        </a>
+                    </div>
+
+                    <div class="filter-section d-none" id="playDayEditor">
+                        <div class="filter-title" id="playDayEditorTitle">Tạo ngày chơi</div>
+                        <form id="playDayForm">
+                            <input id="playDayName" class="filter-input mb-2" type="text" placeholder="Tên ngày chơi" required>
+                            <input id="playDayDate" class="filter-input mb-2" type="date" required>
+                            <div class="filter-title mt-2">Người tham gia</div>
+                            <div id="playDayPlayerChoices" class="player-checkboxes"></div>
+                            <button type="submit" class="btn btn-sm btn-primary w-100 mt-2">Lưu ngày chơi</button>
+                            <button type="button" class="btn btn-sm btn-light w-100 mt-2" id="cancelPlayDayEdit">Huỷ</button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="league-card">
+                        <div class="league-header">
+                            <div>
+                                <div class="league-title" id="playDayTitle">Loading...</div>
+                                <div class="league-location">
+                                    <i class="fas fa-calendar"></i>
+                                    <span id="playDayDateLabel"></span>
+                                </div>
+                                <p class="league-description" id="playDayMemberCount"></p>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary admin-only d-none" id="editPlayDayButton">Sửa ngày chơi</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Players</div>
+                            <div class="stat-value" id="totalPlayers">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Total Matches</div>
+                            <div class="stat-value" id="totalMatches">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Nhiều trận thắng nhất</div>
+                            <div class="stat-value" id="topWins">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Người đã thi đấu</div>
+                            <div class="stat-value" id="activePlayers">0</div>
+                        </div>
+                    </div>
+
+                    <section class="match-entry-card admin-only d-none">
+                        <div class="match-entry-header">
+                            <div>
+                                <h2>Nhập tỷ số trận đánh đôi</h2>
+                                <p>Chọn hai người chơi cho mỗi đội và nhập điểm chung cuộc.</p>
+                            </div>
+                            <i class="fas fa-table-tennis-paddle-ball"></i>
+                        </div>
+                        <form id="doublesMatchForm">
+                            <div class="teams-grid">
+                                <fieldset class="team-panel">
+                                    <legend>Đội 1</legend>
+                                    <label for="team1Player1">Người chơi 1</label>
+                                    <select id="team1Player1" class="filter-input player-select" required></select>
+                                    <label for="team1Player2">Người chơi 2</label>
+                                    <select id="team1Player2" class="filter-input player-select" required></select>
+                                    <label for="team1Score">Điểm</label>
+                                    <input id="team1Score" class="score-input" type="number" min="0" required>
+                                </fieldset>
+                                <div class="versus">VS</div>
+                                <fieldset class="team-panel">
+                                    <legend>Đội 2</legend>
+                                    <label for="team2Player1">Người chơi 1</label>
+                                    <select id="team2Player1" class="filter-input player-select" required></select>
+                                    <label for="team2Player2">Người chơi 2</label>
+                                    <select id="team2Player2" class="filter-input player-select" required></select>
+                                    <label for="team2Score">Điểm</label>
+                                    <input id="team2Score" class="score-input" type="number" min="0" required>
+                                </fieldset>
+                            </div>
+                            <div id="matchMessage" class="match-message" role="status"></div>
+                            <button type="submit" class="btn btn-primary submit-score">
+                                <i class="fas fa-check"></i> <span id="saveMatchLabel">Lưu kết quả</span>
+                            </button>
+                            <button type="button" class="btn btn-light cancel-match-edit d-none" id="cancelMatchEdit">Huỷ sửa</button>
+                        </form>
+                    </section>
+
+                    <section class="match-history-card">
+                        <h2>Lịch sử trận đấu</h2>
+                        <div id="matchHistory">
+                            <div class="loading">Loading matches...</div>
+                        </div>
+                    </section>
+
+
+
+                    <div class="ladder-table" id="ladderTable">
+                        <div class="table-header">
+                            <div>#</div>
+                            <div>Player Name</div>
+                            <div>Điểm +/-</div>
+                            <div class="text-center">Thắng</div>
+                            <div class="text-center">Thua</div>
+                            <div class="text-center">Tỷ lệ<br>thắng</div>
+                            <div class="max-col text-center">MAX</div>
+                        </div>
+                        <div id="playersList">
+                            <div class="loading">Loading players...</div>
+                        </div>
+                    </div>
+                    <div id="ladderPlayDayText" class="text-center text-muted mt-2" style="font-size: 13px;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Pickleball Ladder League. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cấu hình hệ thống</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar-nav w-100 px-3">
+            <a class="navbar-brand text-decoration-none" href="/">
+                <i class="fas fa-circle"></i>Pickleball League
+            </a>
+            <div class="ms-auto">
+                <a class="btn btn-sm btn-outline-primary me-2" href="/">
+                    <i class="fas fa-arrow-left"></i> Về màn hình chính
+                </a>
+                <button type="button" class="btn btn-sm btn-primary" id="authButton">
+                    <i class="fas fa-right-to-bracket"></i> Đăng nhập Admin
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="player-management-card admin-only d-none">
+                <div class="management-header">
+                    <h2>Cấu hình tham số hệ thống</h2>
+                    <p>Điều chỉnh các tham số hiển thị cho bảng xếp hạng.</p>
+                </div>
+                
+                <form id="configForm" class="mt-4">
+                    <div class="mb-3" style="max-width: 300px;">
+                        <label for="configMaxLosses" class="form-label" style="font-weight: 600;">Max trận thua</label>
+                        <input type="number" id="configMaxLosses" class="form-control filter-input" min="0" required>
+                        <div class="form-text">Số trận thua tối đa tính cho cột MAX.</div>
+                    </div>
+                    
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="configShowMax">
+                        <label class="form-check-label" for="configShowMax" style="font-weight: 600;">Hiển thị cột MAX trên bảng xếp hạng</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Lưu cấu hình
+                    </button>
+                    <span id="configMessage" class="ms-3"></span>
+                </form>
+            </section>
+            
+            <section class="player-management-card non-admin-only">
+                <div class="management-header">
+                    <h2>Truy cập bị từ chối</h2>
+                    <p>Bạn cần đăng nhập Admin để xem và thay đổi cấu hình.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/config.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê theo tháng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .stats-table-header, .stats-table-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 120px;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+        }
+        .stats-table-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        .stats-table-row {
+            border-bottom: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar-nav w-100 px-3">
+            <a class="navbar-brand text-decoration-none" href="/">
+                <i class="fas fa-circle"></i>Pickleball League
+            </a>
+            <div class="ms-auto">
+                <a class="btn btn-sm btn-outline-primary me-2" href="/">
+                    <i class="fas fa-arrow-left"></i> Về màn hình chính
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="player-management-card">
+                <div class="management-header">
+                    <h2>Thống kê MAX theo tháng</h2>
+                    <p>Tổng số trận thua ở cột MAX trong tháng của các người chơi được chọn.</p>
+                </div>
+                
+                <div class="filter-section mb-4" style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <div style="margin-bottom: 15px;">
+                        <label for="statsMonth" style="font-weight: 600;">Chọn tháng:</label>
+                        <input type="month" id="statsMonth" class="filter-input d-inline-block w-auto ms-2">
+                    </div>
+                    
+                    <div>
+                        <label style="font-weight: 600; display: block; margin-bottom: 8px;">Chọn người chơi cần xem thống kê:</label>
+                        <div id="playerCheckboxes" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: white;">
+                            <!-- Checkboxes injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ladder-table">
+                    <div class="stats-table-header">
+                        <div>#</div>
+                        <div>Người chơi</div>
+                        <div class="text-center">Tổng MAX</div>
+                    </div>
+                    <div id="statsList">
+                        <div class="loading">Vui lòng chọn tháng và người chơi...</div>
+                    </div>
+                </div>
+                <div id="statsMonthText" class="text-center text-muted mt-2" style="font-size: 13px;"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/js/stats.js"></script>
+</body>
+</html>

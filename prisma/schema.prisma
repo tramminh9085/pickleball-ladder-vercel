@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Player {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String?  @unique
+  skillLevel  Float?   @map("skill_level")
+  wins        Int      @default(0)
+  losses      Int      @default(0)
+  rating      Float    @default(1000.0)
+  rank        Int?
+  location    String?
+  phoneNumber String?  @map("phone_number")
+  createdAt   String?  @map("created_at")
+
+  @@map("players")
+}
+
+model PlayDay {
+  id        Int      @id @default(autoincrement())
+  name      String
+  playDate  String   @map("play_date")
+  
+  @@map("play_days")
+}
+
+model PlayDayPlayer {
+  playDayId Int @map("play_day_id")
+  playerId  Int @map("player_id")
+
+  @@id([playDayId, playerId])
+  @@map("play_day_players")
+}
+
+model Match {
+  id               Int      @id @default(autoincrement())
+  leagueId         Int?     @map("league_id")
+  playDayId        Int      @map("play_day_id")
+  team1Player1Id   Int      @map("team1_player1_id")
+  team1Player2Id   Int      @map("team1_player2_id")
+  team2Player1Id   Int      @map("team2_player1_id")
+  team2Player2Id   Int      @map("team2_player2_id")
+  team1Player1Name String   @map("team1_player1_name")
+  team1Player2Name String   @map("team1_player2_name")
+  team2Player1Name String   @map("team2_player1_name")
+  team2Player2Name String   @map("team2_player2_name")
+  team1Score       Int      @map("team1_score")
+  team2Score       Int      @map("team2_score")
+  winningTeam      Int      @map("winning_team")
+  matchDate        String?  @map("match_date")
+  status           String?
+  matchType        String?  @map("match_type")
+
+  @@map("matches")
+}
+
+model AppConfig {
+  id            Int     @id @default(1)
+  maxLosses     Int     @default(3)
+  showMaxColumn Boolean @default(true)
+
+  @@map("app_config")
+}
